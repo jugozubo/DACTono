@@ -3,29 +3,40 @@ from machine import DAC, Pin, ADC
 from time import sleep,sleep_us
 import math
 
+from machine import DAC, Pin
+from time import sleep
+import math
 
-salida=DAC(Pin(25))
+salida = DAC(Pin(25))
 
-N=32
-frecuencias=[261.63,293.66,329.63,349.23]
+# tamaño de la tabla seno
+N = 32
 
-def nota(f):
-    T=1/f
-    t=T/32
-    print(f)
-    for i in range(32):
-        valor=int(127.5*(math.sin(2*math.pi*f*t)+1))
-        salida.write(valor)
-        t=t+T/32
-        sleep_us(int(t*1000000))
+# tabla seno
+seno = [int(127.5*(1+math.sin(2*math.pi*i/N))) for i in range(N)]
 
+# frecuencias de las notas
+DO  = 261.63
+RE  = 293.66
+MI  = 329.63
+FA  = 349.23
+SOL = 392.00
+LA  = 440.00
+SI  = 493.88
+
+def nota(freq, dur):
+    for _ in range(int(freq*dur)):
+        for v in seno:
+            salida.write(v)
+            sleep(1/(freq*N))
 
 while True:
-    nota(frecuencias[0])
-    sleep(1)
-    salida.write(0)
-    sleep(1)
-    nota(frecuencias[1])
-    sleep(1)
-    salida.write(0)
-    sleep(1)
+    nota(DO,0.25)
+    nota(DO,0.25)
+    nota(RE,0.5)
+    nota(DO,0.5)
+    nota(FA,0.5)
+    nota(MI,1)
+
+    sleep(0.5)
+
