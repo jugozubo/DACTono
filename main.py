@@ -32,12 +32,10 @@ def nota(freq, dur):
             sleep(1/(freq*N))
 
 while True:
-    nota(DO,0.25)
-    nota(DO,0.25)
-    nota(RE,0.5)
-    nota(DO,0.5)
-    nota(FA,0.5)
-    nota(MI,1)
-
+    nota(DO,1)
+    salida.write(0)
+    sleep(0.5)
+    nota(RE,1)
+    salida.write(0)
     sleep(0.5)
 
