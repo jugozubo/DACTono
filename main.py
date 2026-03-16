@@ -1,10 +1,6 @@
 # main.py -- put your code here!
 from machine import DAC, Pin, ADC
-from time import sleep,sleep_us
-import math
-
-from machine import DAC, Pin
-from time import sleep
+from time import sleep,sleep_us, ticks_us, ticks_diff
 import math
 
 salida = DAC(Pin(25))
