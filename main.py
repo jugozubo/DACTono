@@ -10,7 +10,7 @@ import math
 salida = DAC(Pin(25))
 
 # tamaño de la tabla seno
-N = 32
+N = 100
 
 # tabla seno
 seno = [int(127.5*(1+math.sin(2*math.pi*i/N))) for i in range(N)]
@@ -25,7 +25,8 @@ LA  = 440.00
 SI  = 493.88
 
 def nota(freq, dur):
-    for _ in range(int(freq*dur)):
+    t0 = ticks_us()
+    while ticks_diff(ticks_us(), t0) < dur*1000000:
         for v in seno:
             salida.write(v)
             sleep(1/(freq*N))
